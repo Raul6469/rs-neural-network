@@ -3,8 +3,6 @@ use std::cell::RefCell;
 
 use super::synapse::Synapse;
 
-const ACTIVATION_THRESHOLD: f32 = 0.5f32;
-
 #[derive(Debug)]
 pub struct Neuron {
     synapses: Vec<Synapse>,
@@ -40,19 +38,11 @@ impl Neuron {
             acc + synapse.get_weighted_input()
         });
 
-        let value = combination_value * activation_function(combination_value);
+        let value = sigmoid(combination_value);
 
         self.value = Some(value);
 
         value
-    }
-}
-
-fn activation_function(value: f32) -> f32 {
-    if sigmoid(value) >= ACTIVATION_THRESHOLD {
-        1f32
-    } else {
-        0f32
     }
 }
 
